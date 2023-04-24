@@ -9,6 +9,8 @@ Lenianet is an extension of Lenia into the 3rd dimension.
     
 ## **Implementation**
 
+This code is based on rules from lenia. You can find the rules for lenia [here](https://en.wikipedia.org/wiki/Lenia)
+
 
 We define kernel, $K$, to be
 
