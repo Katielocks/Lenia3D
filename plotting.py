@@ -7,7 +7,7 @@ import plotly.io as pio
 pio.renderers.default = 'browser'
 
 import mesh
-import torch
+import numpy as np
 import functions as f
 
 # Define a function called plot_mesh that takes in several parameters
