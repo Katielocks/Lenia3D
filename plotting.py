@@ -23,7 +23,7 @@ def plot_mesh(time,frames,radius,m,s,grid_size,cluster_num = 40,cluster_size = (
     cluster_num: the number of clusters to generate in the initial state of the system (default value is 40)
     cluster_size: a tuple representing the range of sizes for the clusters generated in the initial state of the system (default value is (2,8))"""
     # Define the 3D coordinates of the vertices of a cube
-    offset = torch.tensor([
+    offset = np.array([
         [-0.5, -0.5, -0.5], # vertex 0
         [ 0.5, -0.5, -0.5], # vertex 1
         [ 0.5,  0.5, -0.5], # vertex 2
@@ -35,7 +35,7 @@ def plot_mesh(time,frames,radius,m,s,grid_size,cluster_num = 40,cluster_size = (
     ])
 
     # Define the faces of the cube as offsets into the vertex tensor
-    offset_faces = torch.tensor([
+    offset_faces = np.array([
         [0, 1, 2, 3], # face 0
         [1, 5, 6, 2], # face 1
         [4, 0, 3, 7], # face 2
@@ -69,8 +69,7 @@ def plot_mesh(time,frames,radius,m,s,grid_size,cluster_num = 40,cluster_size = (
     # Generate a state grid using the state_gen function
     grid = f.generate_random_state(cluster_num,cluster_size,grid_size,seed=None)
     # Convert the state grid to a sparse tensor and coalesce it to eliminate duplicates
-    sparse_grid = grid.to_sparse().coalesce()
-    frame = generate_frame(sparse_grid, offset,offset_faces)
+    frame = generate_frame(grid, offset,offset_faces)
     
     # Create a list of frames to be used for animation
     frames_list = [frame]
@@ -80,13 +79,7 @@ def plot_mesh(time,frames,radius,m,s,grid_size,cluster_num = 40,cluster_size = (
     # Run the Game of Life update loop
     for i in range(time*frames):
         grid = f.golupdate(grid,kernel,frames,m,s)
-        sparse_grid = grid.to_sparse().coalesce()
-        vertices = sparse_grid.indices()
-        if not vertices.any():
-            break
-        if len(vertices) == 0:
-            break
-        frames_list.append(generate_frame(sparse_grid, offset,offset_faces))
+        frames_list.append(generate_frame(grid, offset,offset_faces))
         
         
     # Create figure object
