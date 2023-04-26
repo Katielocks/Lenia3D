@@ -1,5 +1,4 @@
 import torch
-import numpy as np
 def dir_kernel(grid):
    # Convert the grid to a boolean tensor and add two dimensions to make it compatible with the convolution operation
    grid = grid.bool().unsqueeze(0).unsqueeze(0).float()
