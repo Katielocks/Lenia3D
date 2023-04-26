@@ -3,13 +3,15 @@
 Lenianet is an extension of Lenia into the 3rd dimension. 
 ## **Requirements**
 
-    pytorch (currently)
+    pytorch
     numpy
     plotly
     
+## 
+
 ## **Implementation**
 
-This code is based on rules from lenia, found [here](https://en.wikipedia.org/wiki/Lenia).
+This simulation is based on rules from lenia, found [here](https://en.wikipedia.org/wiki/Lenia).
 
 
 However, we define the extended grid, $A$ to be a 3D tensor with values $\[ 0,1 \]$  and we define the kernel, $K$, to be
