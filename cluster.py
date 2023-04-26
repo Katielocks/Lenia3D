@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 26 15:10:50 2023
 
-@author: ktwhi
-"""
 from scipy import ndimage as nd
 import mesh
 import torch
