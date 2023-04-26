@@ -1,39 +1,93 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr  5 13:17:57 2023
-
-@author: ktwhi
-"""
 import torch
 import numpy as np
-def generate_voxel(grid, offset, offset_faces):
-    # Get the non-zero indices of the grid and generate a face index array
-    indices = grid.nonzero()
-    # Create a array representing face color 
-    face_colors  = np.repeat(grid[indices],6)
-    #generate indices and faces arrays
-    indices = np.transpose(np.stack(indices)) 
-    faces = np.arange(len(indices)).reshape(len(indices), 1) 
-    # Apply offset faces to faces
-    faces = 8 * faces.reshape(faces.shape[0], 1, faces.shape[1]) + offset_faces 
-    faces = faces.reshape(-1, faces.shape[-1]) 
-    # Apply offset to each vertex
-    vertices = indices.reshape(indices.shape[0], 1, indices.shape[1]) + offset
-    vertices = vertices.reshape(len(vertices) * 8, 3)
-    # Remove duplicate vertices
-    vertices, index,counts = np.unique(vertices, axis=0, return_inverse=True,return_counts=True)
-    faces = index[faces]
-    # generate mask for unique faces
-    center = np.mean(vertices[faces],axis=1)
-    center, index, count = np.unique(center, axis=0, return_index=True,return_counts=True)
-    center = center[count<2]
-    index = index[count<2]
-    mask = np.zeros(len(faces), dtype=bool)
-    mask[index] = True
-    #Apply mask
-    faces = faces[mask]
-    face_values = face_colors[mask]
-    return vertices, faces, face_values
+def dir_kernel(grid):
+   # Convert the grid to a boolean tensor and add two dimensions to make it compatible with the convolution operation
+   grid = grid.bool().unsqueeze(0).unsqueeze(0).float()
+   
+   # Define the weights of the directional kernel
+   kern_weights = torch.tensor(
+       [[[0, 0, 0],
+         [0, -4, 0],
+         [0, 0, 0]],
+
+        [[0, -32, 0],
+         [-1, 63, -8],
+         [0, -16, 0]],
+
+        [[0, 0, 0],
+         [0, -2, 0],
+         [0, 0, 0]]])
+   
+   dir_kernel = kern_weights.unsqueeze(0).unsqueeze(0).float()
+   dir_grid = torch.multiply(grid,torch.nn.functional.conv3d(grid, dir_kernel, padding=1).int())
+   
+   # Remove the extra dimensions and return the edge detected grid
+   dir_grid = dir_grid.squeeze(0).squeeze(0)
+   return dir_grid
+
+def generate_voxel(grid):
+    """
+    Generate cuboid voxel mesh of a given 3D grid.
+
+    Args:
+        grid: A 3D numpy array or PyTorch tensor representing the input grid.
+
+    Returns:
+        A tuple containing:
+        - vertices: A 2D tensor of shape (N, 3) representing the unique vertices of the voxel geometry.
+        - faces: A 2D tensor of shape (M, 4) representing the faces of the voxel geometry, where each row is a set of indices into the vertices tensor.
+        - face_values: A 1D tensor of length M representing the value of each face of the voxel geometry, taken from the corresponding index in the input grid.
+    """
+
+    # Convert input grid to a PyTorch tensor
+    grid = torch.tensor(grid)
+
+    # Define the eight vertices of a cube with an offset tensor
+    offset = torch.tensor([
+        [-0.5, -0.5, -0.5], # vertex 0
+        [ 0.5, -0.5, -0.5], # vertex 1
+        [ 0.5,  0.5, -0.5], # vertex 2
+        [-0.5,  0.5, -0.5], # vertex 3
+        [-0.5, -0.5,  0.5], # vertex 4
+        [ 0.5, -0.5,  0.5], # vertex 5
+        [ 0.5,  0.5,  0.5], # vertex 6
+        [-0.5,  0.5,  0.5], # vertex 7
+    ])
+
+    # Define the faces of the cube as offsets into the vertex tensor
+    offset_faces = torch.tensor([
+        [0, 1, 2, 3], # face 0
+        [1, 5, 6, 2], # face 1
+        [4, 0, 3, 7], # face 2
+        [5, 4, 7, 6], # face 3
+        [3, 2, 6, 7], # face 4
+        [4, 5, 1, 0], # face 5
+    ])
+
+    # Apply a directional kernel to the input grid, and extract the indices and values of the non-zero elements
+    dir_grid = dir_kernel(grid)
+    dir_indices = dir_grid.nonzero()
+    dir_values = dir_grid[dir_indices[:,0],dir_indices[:,1],dir_indices[:,2]]
+
+    # Convert the values into a binary representation of the direction in which the voxel should be extruded
+    direction = torch.fmod(torch.floor_divide(dir_values.unsqueeze(1), torch.pow(2, torch.arange(5, -1, -1))), 2)
+    direction = torch.flip(direction, [1])
+
+    # Calculate the set of vertices and faces that form the extruded geometry, given the binary direction
+    face_vertices = offset[offset_faces]
+    vertices = torch.vstack([face_vertices[dir_m]+dir_indices[i] for i,dir_m in enumerate(direction.bool())])
+    faces = torch.arange(len(vertices)*4,dtype=int).reshape(vertices.shape[0],4)
+
+    # Flatten the vertices and eliminate any duplicates, along with corresponding faces, to ensure that the geometry is well-formed
+    vertices, imap = torch.unique(vertices,dim=0,return_inverse=True)
+    faces = imap[faces]
+    
+    # Align the faces with their voxel's value
+    faces_count = torch.bincount(direction.nonzero().t()[0])
+    face_values = grid[dir_indices[:,0],dir_indices[:,1],dir_indices[:,2]]
+    face_values = face_values.repeat_interleave(faces_count)
+    
+    return vertices,faces,face_values
 
 def generate_triangles(shapes):
     """
