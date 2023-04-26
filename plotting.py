@@ -71,21 +71,22 @@ def plot_mesh(time,frames,radius,m,s,grid_size,cluster_num = 40,cluster_size = (
     
 def generate_frame(grid):
     
-    vertices,squares,sq_values = mesh.generate_voxel(grid)
-    triangles =  mesh.generate_triangles(squares)
-    sq_values = sq_values.repeat(2)
+    cluster_arr= c.generate_cluster_array(grid)
+    vertices,faces,face_values = c.global_voxel_mesh(cluster_arr)
+    triangles =  mesh.generate_triangles(faces)
+    face_values = face_values.repeat(2)
     
     # Define a Mesh3d trace using the vertex, triangle, and color information
     trace = go.Mesh3d(
-    x=vertices[:, 0],
+    x=vertices[:, 2],
     y=vertices[:, 1],
-    z=vertices[:, 2],
-    i=triangles[:, 0],
+    z=vertices[:, 0],
+    i=triangles[:, 2],
     j=triangles[:, 1],
-    k=triangles[:, 2],
+    k=triangles[:, 0],
     flatshading=True,
     colorscale='thermal',
-    intensity=sq_values
+    intensity=face_values
     )
     
     return go.Frame(data=[trace])
