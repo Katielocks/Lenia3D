@@ -5,7 +5,7 @@ Lenianet is an extension of Lenia into the 3rd dimension.
 
     PyTorch
     NumPy
-    plotly
+    Plotly
     
 ## 
 
