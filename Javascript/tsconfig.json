@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "target": "es2015",         // or "ES2017", "ES2020", etc.
+      "module": "es2015",         // <-- Important: output ES modules
+      "lib": ["es5", "es2015", "dom"],
+      "strict": true,
+      "outDir": "src"
+    },
+    "include": ["src/gldraw.ts"]
+  }
