@@ -11,6 +11,8 @@ Both versions implement convolution-based updates on a 3‑D grid and support ra
 
 The web client lives in [`Javascript/`](Javascript/). It uses React for the interface, TensorFlow.js to manage tensors, and custom WebGL shaders for rendering.
 
+See Live Demo Here [ https://katielocks.github.io/Projects/Lenia3D/ ]
+
 ### Setup
 ```bash
 cd Javascript
