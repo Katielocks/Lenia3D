@@ -1,7 +1,7 @@
 # Lenia3D
 
 > 🚀 **[Live Demo](https://katielocks.github.io/Projects/Lenia3D/)**  
-> Explore an interactive 3D Lenia simulations in your browser!
+> Explore an interactive 3D Lenia simulation in your browser!
 
 Lenia3D is an exploration of the Lenia cellular automaton in three dimensions. The repository contains two separate implementations:
 
