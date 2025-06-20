@@ -93,6 +93,7 @@
       ...prev,
       seed: initEngine.seed,
       name: initEngine.name,
+      dim: initEngine.shape,
     }));
     initRenderer.render();
 
@@ -210,13 +211,19 @@
     const handleGenerate = () => {
       setUiState((prev) => ({ ...prev, menumode: 'edit' }));
       const dimBounds = genState.dimBounds;
-      const bounds = dimBounds.map((x) => x[0]);
-      const dim = dimBounds.map((x) => x[1]);
+      const bounds = dimBounds.map(([a, b]) => Math.min(a, b));
+      const dim = dimBounds.map(([a, b]) => Math.max(a, b));
       setSimState((prev) => ({ ...prev, params: genState.params }));
       setSimState((prev) => ({ ...prev, dim: dim }));
 
       engineRef.current.loadRandom(dim,bounds, ...genState.range, genState.density);
-
+      engineRef.current.loadRandom(
+        dim,
+        bounds,
+        ...genState.range,
+        genState.density,
+        genState.seed ?? null
+      );        
       genState.seed
         ? setSimState((prev) => ({ ...prev, seed: genState.seed, name: null }))
         : setSimState((prev) => ({ ...prev, seed: engineRef.current.seed, name: null }))

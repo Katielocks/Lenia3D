@@ -110,6 +110,11 @@
         const animalID = parseInt(idStr);
         engine.loadAnimal(animalID);  // <--- Use the passed engine
         if (setSimState) {
-          setSimState(prev => ({ ...prev, seed: engine.seed, name: engine.name }));
+          setSimState(prev => ({
+            ...prev,
+            seed: engine.seed,
+            name: engine.name,
+            dim: engine.shape,
+          }));
         }
       }

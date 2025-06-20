@@ -54,6 +54,11 @@ export const InfoModal = ({ visible, onClose }) => {
 
         {uiState.menumode === "generate" ? (
           <>
+            <h3>Seed Input</h3>
+            <p>
+              <strong>Seed</strong>: A numeric value used to initialize the random number generator. If left blank, a new one is generated automatically. The current seed is shown at the top-left of the simulation window.
+            </p>
+
             <h3>Random Generation Settings</h3>
             <ul>
               <li>

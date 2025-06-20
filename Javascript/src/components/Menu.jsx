@@ -125,7 +125,7 @@ export const Menu = ({ handleGenerate }) => {
                   key={idx}
                   label={dimensionLabels[idx] || `Dim ${idx}`}
                   min={0}
-                  max={128}
+                  max={256}
                   step={1}
                   path="dimBounds"
                   index={idx}
@@ -136,7 +136,7 @@ export const Menu = ({ handleGenerate }) => {
                   key={idx}
                   label={dimensionLabels[idx] || `Dim ${idx}`}
                   min={0}
-                  max={128}
+                  max={256}
                   step={1}
                   path="dim"
                   index={idx}

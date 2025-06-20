@@ -2,7 +2,7 @@ import * as tf from '@tensorflow/tfjs'
 import { fftn, ifftn } from './FftUtils.js';
 import { generateKernel } from './KernelGen.js';
 import { SelectAnimalID } from '../utils/load.js';
-import { resize,random } from './GridUtils.js';
+import { resize, random, center } from './GridUtils.js';
 
 function polynomialQuad(n, m, s) {
   return tf.tidy(() => {return tf.sub(tf.mul(tf.pow(tf.maximum(0,tf.sub(1,tf.div(tf.pow(tf.sub(n,m),2),tf.mul(9,tf.pow(s,2))))),4),2),1) })
@@ -50,21 +50,30 @@ export class LeniaEngine {
     this.onParamChange =  true
   }
   loadAnimal(animalID){
-    const AnimalCode = SelectAnimalID(animalID);  
+    const AnimalCode = SelectAnimalID(animalID);
     this.id = AnimalCode.id
     this.seed = null
     this.name = AnimalCode.name
+    this.shape = AnimalCode.tensor.shape
     this.setParams(AnimalCode.params)
-    tf.tidy(()=>{this.grid.assign(resize(AnimalCode.tensor,this.shape))})
+    this.bounds = this.shape
+    this.genShape = this.shape.map(x => Math.floor(x * 0.8))
+    tf.tidy(()=>{
+      const centered = center(AnimalCode.tensor.cast('float32'))
+      this.grid = tf.variable(centered)
+    })
     this.generation = 0;
     this.time = 0
     this.onStep = this.isRunning ? null : true
   }
 
-  loadRandom(size,bounds,min,max,density){
-    if (this.seed==null){
-      const random = Math.random()
-      this.seed = parseInt(random * 10**(toString(random).length-2)) 
+  loadRandom(size, bounds, min, max, density, seed = null){
+    // Allow an explicit seed to be provided for reproducibility
+    if (seed !== null){
+      this.seed = seed
+    } else if (this.seed == null){
+      const rng = Math.random()
+      this.seed = parseInt(rng * 10**(toString(rng).length - 2))
     }
     this.shape = size
     this.bounds = bounds
@@ -82,8 +91,11 @@ export class LeniaEngine {
     this.onStep = this.isRunning ? null : true
   }
   reset(){
-    if (this.id) {this.loadAnimal(this.id)}
-    else {this.loadRandom(this.shape,this.bounds,this.min,this.max,this.density,this.seed)}
+    if (this.id) {
+      this.loadAnimal(this.id)
+    } else {
+      this.loadRandom(this.shape, this.bounds, this.min, this.max, this.density, this.seed)
+    }
   }
 
   step() {
