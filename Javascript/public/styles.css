@@ -1048,7 +1048,54 @@ input[type="range"]:focus::-moz-range-thumb {
   cursor: pointer;
 }
 
+/* Full‑screen darkened backdrop */
 .info-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+}
+
+/* Modal card */
+.info-modal {
+  position: relative; /* ensures close button is anchored correctly */
+  max-width: 400px;
+  background: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  padding: 1.25rem 1.5rem 1.5rem; /* extra top‑padding for the X */
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* X icon button */
+.close-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s ease-in-out;
+}
+.close-button:hover {
+  opacity: 0.7;
+}
+.close-button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* --- PARAMETER MODAL --- */
+.param-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -1061,10 +1108,31 @@ input[type="range"]:focus::-moz-range-thumb {
   z-index: 10000;
 }
 
-.info-modal {
+.param-modal {
   background: hsl(var(--popover));
   color: hsl(var(--popover-foreground));
-  padding: 1rem;
+  padding: 2rem;
   border-radius: var(--radius);
-  max-width: 320px;
+  width: 80%;
+  position: relative;
+}
+
+.param-modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+}
+
+.param-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
 }

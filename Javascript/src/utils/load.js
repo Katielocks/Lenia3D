@@ -11,9 +11,10 @@ export function SelectAnimalID(id) {
     const tensor = rle2arr(cellSt);
     const params = Object.assign({}, a['params'])
     const type = SelectType(id)
+    const name = a["name"]
     params['b'] = st2fracs(params['b'])
 
-    return {tensor,type,params,id}
+    return {tensor,type,params,id,name}
 }
 function SelectType(id) {
     let names = []
