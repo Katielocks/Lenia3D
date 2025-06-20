@@ -54,21 +54,14 @@ export class LeniaEngine {
     this.id = AnimalCode.id
     this.seed = null
     this.name = AnimalCode.name
-    this.shape = AnimalCode.tensor.shape
     this.setParams(AnimalCode.params)
-    this.bounds = this.shape
-    this.genShape = this.shape.map(x => Math.floor(x * 0.8))
-    tf.tidy(()=>{
-      const centered = center(AnimalCode.tensor.cast('float32'))
-      this.grid = tf.variable(centered)
-    })
+    tf.tidy(()=>{this.grid.assign(resize(AnimalCode.tensor,this.shape))})
     this.generation = 0;
     this.time = 0
     this.onStep = this.isRunning ? null : true
   }
 
   loadRandom(size, bounds, min, max, density, seed = null){
-    // Allow an explicit seed to be provided for reproducibility
     if (seed !== null){
       this.seed = seed
     } else if (this.seed == null){

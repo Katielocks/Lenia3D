@@ -81,21 +81,6 @@ export function roll(grid, axes, shifts) {
   });
 }
 
-export function center(tensor) {
-  return tf.tidy(() => {
-    const nonZero = tf.where(tensor.greater(0));
-    if (nonZero.size === 0) {
-      return tensor.clone();
-    }
-    const mean = nonZero.mean(0);
-    const centerVals = Array.from(mean.dataSync());
-    const mid = tensor.shape.map((d) => Math.floor(d / 2));
-    const shift = mid.map((m, i) => Math.round(m - centerVals[i]));
-    const axes = [...Array(tensor.shape.length).keys()];
-    return roll(tensor, axes, shift);
-  });
-}
-
 export function Condense(){
     return tf.tidy(()=>{ 
         const Zaxis = this.grid.shape[0]
