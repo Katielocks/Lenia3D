@@ -19,7 +19,7 @@ export const Sidebar = () => {
           </a>
         </li>
         <li className="nav-item">
-                    <a className="nav-link" onClick={(e)=> setUiState((prev) => ({ ...prev, menumode: 'edit', showParamOverlay: true }))} href="#" aria-current="page" aria-label="Edit">
+                    <a className="nav-link" onClick={(e)=> setUiState((prev) => ({ ...prev, menumode: 'edit' }))} href="#" aria-current="page" aria-label="Edit">
             <img src={`${process.env.PUBLIC_URL}/assets/images/edit.png`} id="edit" alt="Edit Icon" className="nav-icon" />
             <span className="nav-link-text">Edit</span>
           </a>

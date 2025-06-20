@@ -64,13 +64,6 @@ export const Topbar = ({}) => {
 
       {/* Title */}
       <div className="topbar-text">Lenia3D</div>
-      <button
-        className="info-button"
-        onClick={() => setShowInfo(true)}
-        aria-label="Parameter info"
-      >
-        ?
-      </button>
       {/* Right-Aligned Controls */}
       <div className="topbar-right-align">
         {/* 2D/3D Dimension Switch 

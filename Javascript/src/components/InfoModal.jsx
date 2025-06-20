@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+import { EngineContext } from "../App";
+
 
 /**
  * InfoModal - shows a short parameter guide.
@@ -7,6 +9,7 @@ import React from "react";
  *  • onClose (function) - called when the user dismisses the modal
  */
 export const InfoModal = ({ visible, onClose }) => {
+  const { uiState } = useContext(EngineContext);  
   if (!visible) return null;
 
   return (
@@ -42,20 +45,33 @@ export const InfoModal = ({ visible, onClose }) => {
 
         <h2>Parameter Guide</h2>
 
-        <p>
-          <strong>Random Generation</strong>
-        </p>
-        <ul>
-          <li>
-            <strong>Range</strong> - minimum and maximum starting values.
-          </li>
-          <li>
-            <strong>Density</strong> - probability of a cell being active.
-          </li>
-           <li>
-            <strong>X, Y, Z</strong> - grid dimensions, lower handle is dimension of starting cube, upper handle is the dimension of game space.
-          </li>
-        </ul>
+        {uiState.menumode === 'generate' ? (
+          <>
+            <p>
+              <strong>Random Generation</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Range</strong> - minimum and maximum starting values.
+              </li>
+              <li>
+                <strong>Density</strong> - probability of a cell being active.
+              </li>
+              <li>
+                <strong>X, Y, Z</strong> - grid dimensions, lower handle is dimension of starting cube, upper handle is the dimension of game space.
+              </li>
+            </ul>
+          </>
+        ) : (
+          <>
+            <p>
+              <strong>Dimensions</strong>
+            </p>
+            <p>
+              <strong>X, Y, Z</strong> – grid dimensions.
+            </p>
+          </>
+        )}
 
         <p>
           <strong>Time</strong> (T) - steps per second.

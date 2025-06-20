@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { EngineContext } from '../App';
 import { useActiveState } from './useActiveState';
 import { validateData } from './validation';
 import { handleParamChange } from './handleParamChange';
 import { GenerateDualRange, GenerateSingleRange } from './RangeInputs';
+import { InfoModal } from './InfoModal';  
 
 export const Menu = ({ handleGenerate }) => {
   const {
@@ -14,8 +15,11 @@ export const Menu = ({ handleGenerate }) => {
     genState,
     setGenState,
   } = useContext(EngineContext);
+  
 
   const { activeState, setActiveState } = useActiveState();
+  const [showInfo, setShowInfo] = useState(false);
+
 
   const dimensionLabels = ['X', 'Y', 'Z'];
   const timeOptions = [1, 2, 3, 4, 5, 10, 20, 50, 100];
@@ -52,6 +56,13 @@ export const Menu = ({ handleGenerate }) => {
       <div className="menu-topbar" style={{ backgroundColor: topbarColor }}>
         <label className="subheader-label" style={{ margin: 'auto 0 0 3%' }}>
           {menumodes[uiState.menumode]?.headerText || 'Lenia'}
+        <button
+        className="info-button"
+        onClick={() => setShowInfo(true)}
+        aria-label="Parameter info"
+        >
+        ?
+        </button>
         </label>
         <div className="switch-button-container">
           <button
