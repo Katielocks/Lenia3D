@@ -57,13 +57,15 @@ export const Menu = ({ handleGenerate }) => {
       <div className="menu-topbar" style={{ backgroundColor: topbarColor }}>
         <label className="subheader-label" style={{ margin: 'auto 0 0 3%' }}>
           {menumodes[uiState.menumode]?.headerText || 'Lenia'}
-        <button
-        className="info-button"
-        onClick={() => setShowInfo(true)}
-        aria-label="Parameter info"
-        >
-        ?
-        </button>
+        {uiState.menumode != 'pregenerated' && (
+          <button
+            className="info-button"
+            onClick={() => setShowInfo(true)}
+            aria-label="Parameter info"
+            >
+            ?
+          </button>
+        )}
         </label>
         <div className="switch-button-container">
           <button

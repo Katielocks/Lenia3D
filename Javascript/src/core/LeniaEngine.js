@@ -53,7 +53,7 @@ export class LeniaEngine {
     const AnimalCode = SelectAnimalID(animalID);
     this.id = AnimalCode.id
     this.seed = null
-    this.name = AnimalCode.name
+    this.name = AnimalCode.name 
     this.setParams(AnimalCode.params)
     tf.tidy(()=>{this.grid.assign(resize(AnimalCode.tensor,this.shape))})
     this.generation = 0;
