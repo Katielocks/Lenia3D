@@ -1,57 +1,41 @@
-# Lenia3D
+Lenia3D
 
-> 🚀 **[Live Demo](https://katielocks.github.io/Projects/Lenia3D/)**  
-> Explore an interactive 3D Lenia simulation in your browser!
+🚀 Live DemoExplore an interactive 3D Lenia simulation in your browser!
 
-Lenia3D is an exploration of the Lenia cellular automaton in three dimensions. The repository contains two separate implementations:
-
-* **Javascript** – a React application powered by TensorFlow.js and WebGL for interactive, GPU‑accelerated simulations directly in the browser.
-* **Python** – a PyTorch based prototype for generating meshes and plotting animations of Lenia3D states with Plotly.
-
-Both versions implement convolution-based updates on a 3‑D grid and support random initialisation or loading predefined "animals".
-
-## Javascript Application
-
-The web client lives in [`Javascript/`](Javascript/). It uses React for the interface, TensorFlow.js to manage tensors, and custom WebGL shaders for rendering.
+Lenia3D is an exploration of the Lenia continuous cellular automaton in three dimensions. The repository contains the source code for a web application of this:
 
 
-### Setup
-```bash
+The web client lives in Javascript/. It uses React for the interface, TensorFlow.js to manage tensors, and custom WebGL shaders for rendering.
+
+Setup
+
 cd Javascript
 npm install
 npm start
-```
-This starts the development server on <http://localhost:3000>.
+
+This starts the development server on http://localhost:3000.
 
 To create a production build run:
-```bash
+
 npm run build
-```
 
-## Python Scripts
+Data
 
-The [`Python/`](Python/) directory contains scripts for experimenting with a 3‑D Lenia grid using PyTorch. The main entry point is `plotting.py`, which renders animated meshes with Plotly.
+Javascript/src/data/animals3D.js includes a catalog of predefined Lenia creatures encoded in run‑length notation. They can be loaded from the UI.
 
-### Requirements
-- PyTorch
-- NumPy
-- Plotly
+Attribution & Inspiration
 
-### Example
-```bash
-cd Python
-python -i plotting.py
-```
-Inside the Python interpreter you can call:
-```python
-plot_mesh(time=10, frames=40, radius=4, m=0.15, s=0.015, grid_size=64)
-```
-This generates a short animation of the evolving system.
+Lenia3D is heavily inspired by Lenia, a system of continuous cellular automata created by Bert Wang‑Chak Chan (@Chakazul). If you are new to Lenia we highly recommend exploring the original project:
 
-## Data
+GitHub repository: https://github.com/Chakazul/Lenia
 
-`Javascript/src/data/animals3D.js` includes a catalog of predefined Lenia creatures encoded in run-length notation. They can be loaded from the UI.
+Interactive web demo: https://chakazul.github.io/Lenia/JavaScript/Lenia.html
 
-## License
+Preprint: Lenia — Biology of Artificial Life (2019) — https://arxiv.org/abs/1812.05433
+
+This 3‑D extension re‑implements the same kernel‑convolution growth dynamics and continuous‑state philosophy in three spatial dimensions. All credit for the original idea, taxonomy, and many of the kernel and growth‑function parameters goes to Bert Chan.
+
+License
 
 This project is provided for educational and research purposes.
+
