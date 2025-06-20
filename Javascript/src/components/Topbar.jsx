@@ -1,10 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { EngineContext } from '../App';
-import { InfoModal } from './InfoModal';  
-
 export const Topbar = ({}) => {
   const { uiState, setUiState } = useContext(EngineContext);
-  const [showInfo, setShowInfo] = useState(false);
   
   // Define sidebar state transitions:
   const transitions = {
@@ -38,7 +35,6 @@ export const Topbar = ({}) => {
   }
 
   return (
-    <>
     <div className="topbar">
       {/* Sidebar Collapse Button */}
       <div className="sidebar-collapse-container">
@@ -116,7 +112,5 @@ export const Topbar = ({}) => {
         </div>
       </div>
     </div>
-    <InfoModal visible={showInfo} onClose={() => setShowInfo(false)} />
-    </>
   );
 };

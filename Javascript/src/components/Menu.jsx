@@ -52,6 +52,7 @@ export const Menu = ({ handleGenerate }) => {
       : 'hsl(var(--background))';
 
   return (
+      <>
     <div className="menu-container">
       <div className="menu-topbar" style={{ backgroundColor: topbarColor }}>
         <label className="subheader-label" style={{ margin: 'auto 0 0 3%' }}>
@@ -352,5 +353,7 @@ export const Menu = ({ handleGenerate }) => {
         </button>
       </div>
     </div>
+      <InfoModal visible={showInfo} onClose={() => setShowInfo(false)} />
+    </>
   );
 };

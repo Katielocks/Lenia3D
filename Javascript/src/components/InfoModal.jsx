@@ -1,30 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { EngineContext } from "../App";
 
-
 /**
- * InfoModal - shows a short parameter guide.
+ * InfoModal - Detailed guide explaining simulation parameters.
  * Props:
- *  • visible (boolean) - whether the modal is open
- *  • onClose (function) - called when the user dismisses the modal
+ *  • visible (boolean) - controls modal visibility
+ *  • onClose (function) - handler to close the modal
  */
 export const InfoModal = ({ visible, onClose }) => {
-  const { uiState } = useContext(EngineContext);  
+  const { uiState } = useContext(EngineContext);
+
+  // Close on Escape key
+  useEffect(() => {
+    if (!visible) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [visible, onClose]);
+
   if (!visible) return null;
 
   return (
-    <div
-      className="info-overlay"
-      onClick={onClose /* close when the backdrop is clicked */}
-    >
-      <div
-        className="info-modal"
-        onClick={(e) => e.stopPropagation() /* keep clicks inside from closing */}
-      >
-        {/* Inline “X” icon in the top‑right */}
+    <div className="info-overlay" onClick={onClose}>
+      <div className="info-modal" onClick={(e) => e.stopPropagation()}>
         <button
           className="close-button"
-          aria-label="Close information modal"
+          aria-label="Close parameter guide"
           onClick={onClose}
         >
           <svg
@@ -43,55 +50,50 @@ export const InfoModal = ({ visible, onClose }) => {
           </svg>
         </button>
 
-        <h2>Parameter Guide</h2>
+        <h2>Simulation Parameters Guide</h2>
 
-        {uiState.menumode === 'generate' ? (
+        {uiState.menumode === "generate" ? (
           <>
-            <p>
-              <strong>Random Generation</strong>
-            </p>
+            <h3>Random Generation Settings</h3>
             <ul>
               <li>
-                <strong>Range</strong> - minimum and maximum starting values.
+                <strong>Range</strong>: Defines minimum and maximum initial values.
               </li>
               <li>
-                <strong>Density</strong> - probability of a cell being active.
+                <strong>Density</strong>: Probability of each cell starting as active.
               </li>
               <li>
-                <strong>X, Y, Z</strong> - grid dimensions, lower handle is dimension of starting cube, upper handle is the dimension of game space.
+                <strong>X, Y, Z Dimensions</strong>: Grid sizes. Lower handle adjusts the initial active area; upper handle adjusts total simulation space.
               </li>
             </ul>
           </>
         ) : (
           <>
+            <h3>Grid Dimensions</h3>
             <p>
-              <strong>Dimensions</strong>
-            </p>
-            <p>
-              <strong>X, Y, Z</strong> – grid dimensions.
+              <strong>X, Y, Z</strong>: Specifies the width, height, and depth of the simulation space.
             </p>
           </>
         )}
 
+        <h3>Time Settings</h3>
         <p>
-          <strong>Time</strong> (T) - steps per second.
+          <strong>Time (T)</strong>: Number of simulation steps per second.
         </p>
 
-        <p>
-          <strong>Kernel</strong>
-        </p>
+        <h3>Kernel Parameters</h3>
         <ul>
           <li>
-            <strong>Radius</strong> (R) - neighbourhood size. Example: 20
+            <strong>Radius (R)</strong>: Defines the size of the neighborhood considered around each cell.
           </li>
           <li>
-            <strong>&mu;</strong> (m) - growth mean.
+            <strong>Mean (μ)</strong>: Average growth value influencing cell activation.
           </li>
           <li>
-            <strong>&sigma;</strong> (s) - growth standard deviation.
+            <strong>Standard Deviation (σ)</strong>: Variability in the growth rate.
           </li>
           <li>
-            <strong>&beta;</strong> (b) - shell coefficients, e.g. [0, 1, 2, 3]
+            <strong>Shell Coefficients (β)</strong>: Influence weights for surrounding shells, e.g., [0, 1, 2, 3].
           </li>
         </ul>
       </div>

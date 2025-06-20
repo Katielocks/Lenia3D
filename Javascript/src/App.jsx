@@ -8,7 +8,6 @@
   import { Menu } from './components/Menu'
   import { Simulation } from './components/Simulation';
   import { PopulateAnimalList } from './components/AnimalList';
-  import { ParameterModal } from './components/ParameterModal';
   import { debounce } from 'lodash';
 
   // Core
@@ -245,10 +244,6 @@
         </div> 
         <Topbar uiState={uiState} setUiState={setUiState} />
         <Sidebar isOpen={uiState.isSidebarOpen} />
-              <ParameterModal
-          visible={uiState.showParamOverlay}
-          onClose={() => setUiState(prev => ({ ...prev, showParamOverlay: false }))}
-        />
         <MainContent>
           <Menu
           handleGenerate = {handleGenerate}
