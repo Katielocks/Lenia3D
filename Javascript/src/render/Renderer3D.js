@@ -50,7 +50,6 @@
         })}
         async render() {
             let processer;
-            console.log(this.volumeData)
             const volumeData = this.volumeData
             const output = tf.tidy(() => {
                 return tf.engine().runKernel(

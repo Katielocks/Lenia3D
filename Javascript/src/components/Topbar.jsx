@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { EngineContext } from '../App';
+import { InfoModal } from './InfoModal';  
 
 export const Topbar = ({}) => {
   const { uiState, setUiState } = useContext(EngineContext);
+  const [showInfo, setShowInfo] = useState(false);
   
   // Define sidebar state transitions:
   const transitions = {
@@ -36,6 +38,7 @@ export const Topbar = ({}) => {
   }
 
   return (
+    <>
     <div className="topbar">
       {/* Sidebar Collapse Button */}
       <div className="sidebar-collapse-container">
@@ -61,7 +64,13 @@ export const Topbar = ({}) => {
 
       {/* Title */}
       <div className="topbar-text">Lenia3D</div>
-
+      <button
+        className="info-button"
+        onClick={() => setShowInfo(true)}
+        aria-label="Parameter info"
+      >
+        ?
+      </button>
       {/* Right-Aligned Controls */}
       <div className="topbar-right-align">
         {/* 2D/3D Dimension Switch 
@@ -99,7 +108,7 @@ export const Topbar = ({}) => {
               }
             />
               <img
-                src="/assets/images/startbutton.png"
+                src={`${process.env.PUBLIC_URL}/assets/images/startbutton.png`}
                 className="play-button-image"
                 alt="Play/Pause"
               />
@@ -114,5 +123,7 @@ export const Topbar = ({}) => {
         </div>
       </div>
     </div>
+    <InfoModal visible={showInfo} onClose={() => setShowInfo(false)} />
+    </>
   );
 };

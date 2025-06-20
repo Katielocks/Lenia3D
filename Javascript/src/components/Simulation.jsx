@@ -10,7 +10,7 @@ export const Simulation = ({ canvasRef}) => {
       {/* Simulation UI */}
     <div id="sim" className="simulation">
         <div className="sim-topbar">
-          <div className="seed-container">{simState.seed}</div>
+          <div className="seed-container">{simState.name || simState.seed}</div>
           <div className="counter-container">
           <div className="subcounter-container">g {simState.generation}</div>
           <div className="subcounter-container"> {simState.timeCount} s</div>
@@ -39,7 +39,7 @@ export const Simulation = ({ canvasRef}) => {
               }
             />
               <img
-                src="/assets/images/startbutton.png"
+                src={`${process.env.PUBLIC_URL}/assets/images/startbutton.png`}
                 className="play-button-image"
                 alt="Play/Pause"
               />

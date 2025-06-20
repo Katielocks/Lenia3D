@@ -43,7 +43,11 @@
         kn: 1,
         gn: 1,
       },
-      dim : [64,64,64]
+      dim : [64,64,64],
+      seed: null,
+      name: null,
+      generation: 0,
+      timeCount: 0  
     });
     const [genState, setGenState] = useState({
       params: {
@@ -85,6 +89,11 @@
     engineRef.current = initEngine;
     rendererRef.current = initRenderer;
     initEngine.loadAnimal(40);
+    setSimState(prev => ({
+      ...prev,
+      seed: initEngine.seed,
+      name: initEngine.name,
+    }));
     initRenderer.render();
 
     setUiState(prev => ({ ...prev,  initialized: true}))
@@ -170,13 +179,14 @@
 
     useEffect(() => {
       if (engineRef) {
-        PopulateAnimalList(engineRef.current);
+        PopulateAnimalList(engineRef.current, setSimState);
       }
     }, [engineRef]);
     useEffect(() => {
       engineRef.current.reset()
       rendererRef.current.volumeData = engineRef.current.grid
       rendererRef.current.render()
+      setSimState(prev => ({ ...prev, seed: engineRef.current.seed, name: engineRef.current.name }))
       setUiState(prev => ({ ...prev, reset: prev.reset=false }))}
       ,[uiState.reset])
     useEffect(() => {
@@ -207,8 +217,11 @@
 
       engineRef.current.loadRandom(dim,bounds, ...genState.range, genState.density);
 
-      genState.seed ? setSimState((prev) => ({ ...prev, seed: genState.seed })) : setSimState((prev) => ({ ...prev, seed: engineRef.current.seed }))
+      genState.seed
+        ? setSimState((prev) => ({ ...prev, seed: genState.seed, name: null }))
+        : setSimState((prev) => ({ ...prev, seed: engineRef.current.seed, name: null }))
 
+        
       rendererRef.current.volumeData = engineRef.current.grid
       rendererRef.current.render();
     };

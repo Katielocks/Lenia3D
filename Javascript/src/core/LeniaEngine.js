@@ -50,7 +50,6 @@ export class LeniaEngine {
     this.onParamChange =  true
   }
   loadAnimal(animalID){
-    console.log(animalID)
     const AnimalCode = SelectAnimalID(animalID);
     this.id = AnimalCode.id
     this.seed = null

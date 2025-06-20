@@ -3,7 +3,7 @@
     // ---------------------------------------------------------------------------
     import {animalArr} from '../data/animals3D.js'
     
-    export function PopulateAnimalList(engine){
+    export function PopulateAnimalList(engine, setSimState){
       if (typeof animalArr === 'undefined') return;
       const list = document.getElementById("AnimalList");
       if (!list) return;
@@ -53,7 +53,7 @@
             code.innerHTML = codeSt;
   
             li.dataset["animalid"] = i;
-            li.addEventListener("click", (e) => SelectAnimalItem(e, engine));
+            li.addEventListener("click", (e) => SelectAnimalItem(e, engine, setSimState));
           } else if (Object.keys(a).length === 3) {
             const nextLevel = parseInt(codeSt.substring(1));
             const diffLevel = nextLevel - currLevel;
@@ -102,11 +102,14 @@
       }
     }
   
-    function SelectAnimalItem(e, engine) {  // <--- Add engine parameter
+    function SelectAnimalItem(e, engine, setSimState) {   // <--- Add engine parameter
         const item = e.target.closest("LI");
         if (!item) return;
         const idStr = item.dataset["animalid"];
         if (!idStr) return;
         const animalID = parseInt(idStr);
         engine.loadAnimal(animalID);  // <--- Use the passed engine
+        if (setSimState) {
+          setSimState(prev => ({ ...prev, seed: engine.seed, name: engine.name }));
+        }
       }

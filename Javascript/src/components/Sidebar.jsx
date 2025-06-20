@@ -14,13 +14,13 @@ export const Sidebar = () => {
         
         <li className="nav-item">
           <a className="nav-link"  onClick={(e)=>setUiState((prev) => ({ ...prev, menumode: 'generate', }))} href="#" aria-current="page" aria-label="Generate">
-            <img src="/assets/images/generate.png" id="generate" alt="Generate Icon" className="nav-icon" />
+            <img src={`${process.env.PUBLIC_URL}/assets/images/generate.png`} id="generate" alt="Generate Icon" className="nav-icon" /> 
             <span className="nav-link-text">Generate</span>
           </a>
         </li>
         <li className="nav-item">
           <a className="nav-link" onClick={(e)=> setUiState((prev) => ({ ...prev, menumode: 'edit', }))} href="#" aria-current="page" aria-label="Edit">
-            <img src="/assets/images/edit.png" id="edit" alt="Edit Icon" className="nav-icon" />
+            <img src={`${process.env.PUBLIC_URL}/assets/images/edit.png`} id="edit" alt="Edit Icon" className="nav-icon" />
             <span className="nav-link-text">Edit</span>
           </a>
         </li>
