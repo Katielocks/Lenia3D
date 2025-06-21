@@ -14,7 +14,6 @@ The web client uses React for the interface, TensorFlow\.js to manage tensors, a
 ### Setup
 
 ```bash
-cd Javascript
 npm install
 npm start
 ```
