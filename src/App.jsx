@@ -26,7 +26,7 @@
     const [uiState, setUiState] = useState({
       layout: 'row-main',
       dimension: '3D',
-      menumode: 'edit',
+      menumode: 'pregenerated',
       sidebarState: 'reduced',
       initialized: false,
       isRunning: false,
