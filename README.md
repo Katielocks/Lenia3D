@@ -9,7 +9,7 @@ Lenia3D is an exploration of the **Lenia** continuous cellular automaton in thre
 
 ## Javascript Application
 
-The web client lives in [`Javascript/`](Javascript/). It uses React for the interface, TensorFlow\.js to manage tensors, and custom WebGL shaders for rendering.
+The web client uses React for the interface, TensorFlow\.js to manage tensors, and custom WebGL shaders for rendering.
 
 ### Setup
 
