@@ -1,9 +1,10 @@
 # Lenia3D
 
 <p align="center">
-  <img src="lenia.gif" width="400px" alt="Lenia3D Simulation" />
+  <a href="https://katielocks.github.io/Projects/Lenia3D/" target="_blank" rel="noopener">
+    <img src="lenia.gif" width="400px" alt="Lenia3D Simulation" />
+  </a>
 </p>
-
 
 > 🚀 **[Live Demo](https://katielocks.github.io/Projects/Lenia3D/)**
 > Explore an interactive 3D Lenia simulation!
