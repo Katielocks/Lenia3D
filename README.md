@@ -1,11 +1,18 @@
 # Lenia3D
 
+<p align="center">
+  <img src="lenia.gif" width="400px" alt="Lenia3D Simulation" />
+</p>
+
+
 > 🚀 **[Live Demo](https://katielocks.github.io/Projects/Lenia3D/)**
 > Explore an interactive 3D Lenia simulation!
 
 Lenia3D is an exploration of the **Lenia** continuous cellular automaton in three dimensions. The repository contains the source code for a web application:
 
 ---
+
+
 
 ## Javascript Application
 
